@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스윗밸런스 자사몰 홈페이지 — 원페이저</title>
+<meta name="description" content="이번 PR로 무엇을 만들었는지 한 장으로 정리한 문서. 화면 구성, 주인공 기능 동작 원리, 인터뷰 답변 반영 위치.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --g:#00614E; --g2:#007C5E; --sw:#FDFFE6; --seed:#84BA45;
+  --ink:#1B2A24; --char:#3A4742; --slate:#6B7571; --mist:#C8CEC9;
+  --paper:#F6F4E8; --white:#fff;
+  --border:rgba(0,97,78,.18); --div:rgba(0,97,78,.09); --tint:rgba(0,97,78,.06);
+  --kr:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+  --sh-sm:0 2px 6px rgba(27,42,36,.08);
+  --sh-md:0 8px 24px rgba(27,42,36,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sw);color:var(--ink);font-family:var(--kr);line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Cover */
+.cover{background:var(--g);color:var(--sw);padding:56px 0 48px;position:relative;overflow:hidden}
+.cover .mark{background:var(--white);border-radius:var(--r-md);padding:12px 18px;display:inline-block;margin-bottom:24px}
+.cover .mark img{height:26px}
+.cover h1{font-size:clamp(28px,4.6vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.cover p{font-size:17px;color:rgba(253,255,230,.78);margin-top:10px;max-width:60ch}
+.cover .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(253,255,230,.18)}
+.cover .meta div .k{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(253,255,230,.5)}
+.cover .meta div .v{font-size:14px;font-weight:600;color:rgba(253,255,230,.92);margin-top:3px}
+
+section{padding:52px 0;border-bottom:1px solid var(--div)}
+section:last-of-type{border-bottom:none}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--g)}
+h2{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:8px 0 8px;line-height:1.3}
+.lead{color:var(--char);max-width:66ch;margin-bottom:28px}
+h3{font-size:16px;font-weight:700;margin-bottom:10px}
+
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+/* AS-IS / TO-BE */
+.ab{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
+.ab .arrow{align-self:center;font-size:26px;color:var(--g);font-weight:700}
+.asis{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px}
+.tobe{background:var(--white);border:1.5px solid var(--g);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh-md)}
+.tag{display:inline-flex;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 11px;border-radius:var(--r-pill);margin-bottom:12px}
+.tag.a{background:rgba(107,117,113,.14);color:var(--slate)}
+.tag.b{background:var(--g);color:var(--sw)}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:8px}
+ul.plain li{display:flex;gap:9px;font-size:14px;color:var(--char);align-items:flex-start}
+ul.plain li::before{content:"";width:6px;height:6px;border-radius:var(--r-pill);background:var(--mist);flex-shrink:0;margin-top:9px}
+.tobe ul.plain li::before{background:var(--seed)}
+
+/* 화면 구성 */
+.screens{display:flex;flex-direction:column;gap:14px}
+.screen{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:start;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 24px;box-shadow:var(--sh-sm)}
+.screen.star{border:1.5px solid var(--g);box-shadow:var(--sh-md)}
+.screen .no{width:44px;height:44px;border-radius:var(--r-pill);background:var(--tint);color:var(--g);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.screen.star .no{background:var(--g);color:var(--sw)}
+.screen .t{font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.screen .d{font-size:14px;color:var(--char);margin-top:6px}
+.pill{display:inline-flex;font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:var(--r-pill);
+  background:var(--seed);color:#fff;text-transform:uppercase}
+
+/* 흐름도 */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.step{background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:18px;position:relative}
+.step .n{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--seed);text-transform:uppercase}
+.step .h{font-weight:700;font-size:14px;margin:6px 0 5px}
+.step .b{font-size:12.5px;color:var(--char);line-height:1.6}
+.step::after{content:"→";position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--mist);font-size:15px;font-weight:700}
+.step:last-child::after{display:none}
+
+/* 표 */
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--white);
+  border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+th{text-align:left;padding:11px 14px;background:var(--tint);color:var(--g);
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+td{padding:11px 14px;border-top:1px solid var(--div);color:var(--char);vertical-align:top}
+td b{color:var(--ink)}
+.mono{font-family:var(--mono);font-size:12px}
+code{font-family:var(--mono);font-size:12px;background:var(--tint);color:var(--g);padding:2px 7px;border-radius:5px}
+
+/* 답변 반영 */
+.answer{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:22px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;gap:10px}
+.answer .q{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--slate);text-transform:uppercase}
+.answer .a{font-size:17px;font-weight:700;color:var(--g);line-height:1.35}
+.answer .w{font-size:13.5px;color:var(--char);padding-top:10px;border-top:1px solid var(--div)}
+
+/* 체크리스트 */
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.check{display:flex;gap:10px;font-size:13.5px;color:var(--char);background:rgba(132,186,69,.09);
+  border:1px solid rgba(132,186,69,.28);border-radius:var(--r-md);padding:11px 14px;align-items:flex-start}
+.check .m{color:#3d7a18;font-weight:700;flex-shrink:0}
+.note{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:16px 18px;font-size:13.5px;color:var(--char);margin-top:16px}
+.note b{color:var(--g)}
+
+/* 스와치 */
+.swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.sw{border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;width:150px;background:var(--white)}
+.sw .c{height:52px}
+.sw .n{padding:9px 12px;font-size:11px}
+.sw .n b{display:block;color:var(--ink);font-size:12px}
+.sw .n span{font-family:var(--mono);color:var(--slate);font-size:10.5px}
+
+footer{background:var(--g);color:rgba(253,255,230,.7);padding:28px 0;font-size:12px}
+footer .in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer i{font-style:italic;color:rgba(253,255,230,.5)}
+
+@media (max-width:820px){
+  .grid2,.grid3,.checks{grid-template-columns:1fr}
+  .ab{grid-template-columns:1fr}
+  .ab .arrow{transform:rotate(90deg)}
+  .flow{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .table-scroll{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <div class="mark"><img src="data:image/png;base64,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" alt="스윗밸런스"></div>
+    <h1>스윗밸런스 자사몰 홈페이지</h1>
+    <p>인터뷰 5개 답변을 반영해 만든 단일 파일 홈페이지입니다. 무엇을 만들었는지 한 장으로 정리했습니다.</p>
+    <div class="meta">
+      <div><div class="k">산출물</div><div class="v">index.html (단일 파일)</div></div>
+      <div><div class="k">디자인 기준</div><div class="v">Brand Design System Ver. 2025.07.25</div></div>
+      <div><div class="k">주인공 기능</div><div class="v">점심 고민 해결 버튼</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- AS-IS / TO-BE -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">01 — Before &amp; After</p>
+    <h2>무엇이 달라지나요</h2>
+    <p class="lead">기존 페이지는 이름과 오늘 날짜만 띄우는 한 화면짜리 개인 홈페이지였습니다. 이번 PR로 브랜드 규정을 따르는 자사몰 홈페이지가 됩니다.</p>
+    <div class="ab">
+      <div class="asis">
+        <span class="tag a">AS-IS</span>
+        <h3>개인 홈페이지 한 화면</h3>
+        <ul class="plain">
+          <li>&ldquo;안녕하세요, 허현입니다&rdquo; 인사 문구 한 줄</li>
+          <li>오늘 날짜를 표시하는 스크립트 한 줄</li>
+          <li>브랜드 요소 없음 &mdash; 회색 배경(<span class="mono">#f7f7f5</span>)에 시스템 폰트</li>
+          <li>사용자가 할 수 있는 동작 없음</li>
+        </ul>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="tobe">
+        <span class="tag b">TO-BE</span>
+        <h3>스윗밸런스 자사몰 홈페이지</h3>
+        <ul class="plain">
+          <li>브랜드 슬로건을 건 히어로 + CSS로 그린 균형 도넛</li>
+          <li>대표 제품 콥샐러드와 서브 메뉴 3종</li>
+          <li><b>실제로 작동하는 점심 추천 기능</b>과 주간 균형 기록</li>
+          <li>디자인 시스템의 컬러·타이포·간격·모션 토큰 전면 적용</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 화면 구성 -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">02 — Structure</p>
+    <h2>화면 구성</h2>
+    <p class="lead">위에서 아래로 네 개 섹션입니다. 세 번째가 이 페이지의 주인공입니다.</p>
+    <div class="screens">
+      <div class="screen">
+        <div class="no">01</div>
+        <div>
+          <div class="t">첫 화면 &mdash; 손님을 맞는 문장</div>
+          <div class="d">
+            헤드라인은 <b>&ldquo;오늘도 균형있게&rdquo;</b>, 아래 받침 문장은 &ldquo;바쁜 하루에도, 운동 뒤에도.&rdquo;
+            오른쪽은 이미지 없이 CSS <code>conic-gradient</code>로 그린 <b>균형 도넛</b>입니다 &mdash;
+            단백질 40% / 채소 30% / 곡물·좋은 지방 30%, 가운데에 420kcal.
+            아래에는 12분 · 34g · 새벽 4시 세 가지 사실을 배치했습니다.
+          </div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="no">02</div>
+        <div>
+          <div class="t">대표 제품 소개</div>
+          <div class="d">
+            <b>콥샐러드</b>를 큰 카드로 세우고 닭가슴살 스테이크·그릴드 쉬림프 샐러드·로스트 치킨 그레인볼을 서브로 붙였습니다.
+            보이스 가이드의 &lsquo;Specific over abstract&rsquo;에 따라 형용사 대신 숫자를 먼저 씁니다 &mdash;
+            <code>단백질 23g · 식이섬유 8g · 420kcal · 조리 3분</code>. 영양 막대는 스크롤 진입 시 채워집니다.
+          </div>
+        </div>
+      </div>
+      <div class="screen star">
+        <div class="no">03</div>
+        <div>
+          <div class="t">점심 고민 해결 버튼 <span class="pill">주인공</span></div>
+          <div class="d">
+            시간 · 컨디션 · 목표 세 가지를 고르고 버튼을 누르면 9개 메뉴 중 <b>딱 하나</b>를 추천합니다.
+            추천 이유를 3줄 근거로 함께 보여주고, 담은 메뉴는 아래 &lsquo;이번 주 나의 균형 기록&rsquo;에 쌓입니다.
+            자세한 동작은 다음 섹션에 정리했습니다.
+          </div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="no">04</div>
+        <div>
+          <div class="t">하단 브랜드 소개</div>
+          <div class="d">
+            미션 문장(국문 + 영문), 브랜드 퍼스낼리티 Warm · Fresh · Honest 세 장,
+            그리고 슬로건 &ldquo;Eat fresh, be your Best. / 진정으로 건강한 한 끼, 오늘도 균형있게.&rdquo;로 마무리합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 주인공 기능 -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">03 — Hero Feature</p>
+    <h2>점심 고민 해결 버튼은 이렇게 작동합니다</h2>
+    <p class="lead">
+      무작위 뽑기가 아닙니다. 세 가지 선택을 점수로 환산해 가장 잘 맞는 메뉴 하나를 고르고,
+      <b>왜 골랐는지 근거를 함께</b> 보여줍니다. 같은 답에는 같은 논리로 답합니다.
+    </p>
+
+    <div class="flow">
+      <div class="step">
+        <div class="n">Step 1</div>
+        <div class="h">세 가지를 고릅니다</div>
+        <div class="b">시간(2) × 컨디션(5) × 목표(3) = <b>30가지 조합</b>. 기본값이 미리 선택돼 있어 바로 눌러도 동작합니다.</div>
+      </div>
+      <div class="step">
+        <div class="n">Step 2</div>
+        <div class="h">9개 메뉴를 채점합니다</div>
+        <div class="b">조리시간·칼로리·단백질·식이섬유와 컨디션별 적합도를 더해 메뉴마다 점수를 냅니다.</div>
+      </div>
+      <div class="step">
+        <div class="n">Step 3</div>
+        <div class="h">최고점 하나만 남깁니다</div>
+        <div class="b">최근에 추천한 메뉴는 점수를 깎아, 같은 조합을 다시 눌러도 다른 메뉴가 나옵니다.</div>
+      </div>
+      <div class="step">
+        <div class="n">Step 4</div>
+        <div class="h">근거와 함께 보여줍니다</div>
+        <div class="b">점수를 올린 항목이 그대로 추천 이유 문장이 됩니다. 담으면 주간 기록에 누적됩니다.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:34px">실제 추천 결과 (브라우저에서 검증)</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>시간</th><th>컨디션</th><th>목표</th><th>추천 결과</th><th>보여주는 이유</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10분 안에</td><td>운동 후</td><td>단백질</td><td><b>닭가슴살 스테이크</b></td><td>운동 뒤엔 이거예요. 단백질 32g, 280kcal.</td></tr>
+          <tr><td>여유 있게</td><td>운동 후</td><td>든든하게</td><td><b>수비드 스테이크 샐러드</b></td><td>운동 뒤엔 이거예요. 단백질 34g, 470kcal.</td></tr>
+          <tr><td>10분 안에</td><td>운동 전</td><td>가볍게</td><td><b>단호박 리코타 샐러드</b></td><td>이따 운동 가신다면 이 정도가 딱 좋아요. 350kcal.</td></tr>
+          <tr><td>10분 안에</td><td>야근·늦은 끼니</td><td>가볍게</td><td><b>두부 유부 샐러드</b></td><td>늦은 시간엔 가볍게. 330kcal로 부담을 줄였어요.</td></tr>
+          <tr><td>여유 있게</td><td>속이 더부룩</td><td>가볍게</td><td><b>렌틸 채소 수프</b></td><td>오늘은 속 편한 쪽으로. 식이섬유 10g 담았습니다.</td></tr>
+          <tr><td>여유 있게</td><td>평범한 하루</td><td>든든하게</td><td><b>로스트 치킨 그레인볼</b></td><td>오늘은 든든하게. 510kcal · 식이섬유 9g.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2" style="margin-top:20px">
+      <div class="card">
+        <h3>고객 건강에 어떻게 도움이 되나요</h3>
+        <ul class="plain">
+          <li><b>고민 시간을 없앱니다.</b> 메뉴판을 훑다 늘 먹던 걸 고르는 대신, 오늘 몸 상태에 맞는 한 끼가 바로 제시됩니다.</li>
+          <li><b>선택의 근거를 배웁니다.</b> &ldquo;운동 직후엔 단백질을 빠르게&rdquo;처럼 이유를 함께 읽으며 기준이 쌓입니다.</li>
+          <li><b>습관이 눈에 보입니다.</b> 주간 기록에 누적 단백질·채소 가짓수가 쌓여 다음 선택에 영향을 줍니다.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>기록 기능 동작</h3>
+        <ul class="plain">
+          <li>&lsquo;이 메뉴로 담기&rsquo;를 누르면 담은 끼니 수 · 누적 단백질(g) · 누적 채소(종)가 갱신됩니다.</li>
+          <li>브라우저 <code>localStorage</code>에 저장되어 새로고침해도 유지되고, &lsquo;기록 지우기&rsquo;로 초기화합니다.</li>
+          <li>저장이 막힌 환경(시크릿 모드 등)에서도 <code>try/catch</code>로 감싸 페이지는 정상 동작합니다.</li>
+          <li>대표 제품 카드의 담기 버튼도 같은 기록에 반영됩니다.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 반영된 답변 -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">04 — Interview</p>
+    <h2>반영된 나의 답변</h2>
+    <p class="lead">인터뷰에서 답한 다섯 가지가 페이지 어디에 어떻게 들어갔는지 정리했습니다.</p>
+    <div class="grid2" style="gap:14px">
+      <div class="answer">
+        <div class="q">Q1. 이 홈페이지의 손님은?</div>
+        <div class="a">바쁜 직장인 + 운동하는 사람</div>
+        <div class="w">
+          히어로 서브카피를 &ldquo;점심시간은 짧고, 채워야 할 단백질은 그대로입니다&rdquo;로 잡아 두 손님을 한 문장에 담았습니다.
+          추천 기능의 선택지도 이 두 사람을 위해 설계했습니다 &mdash; 시간축은 <b>10분 안에</b>,
+          컨디션축은 <b>운동 전 / 운동 후</b>가 5개 중 2개를 차지합니다.
+        </div>
+      </div>
+      <div class="answer">
+        <div class="q">Q2. 첫 화면에서 느꼈으면 하는 한 문장</div>
+        <div class="a">오늘도 균형있게</div>
+        <div class="w">
+          히어로 H1에 브랜드 디스플레이 폰트(삼립호빵체)로 그대로 올렸습니다.
+          문장을 글자로만 두지 않고 <b>균형 도넛 차트</b>로 시각화해 &lsquo;균형&rsquo;을 눈으로 보이게 했고,
+          하단 슬로건 바에서 브랜드 원문으로 한 번 더 회수합니다.
+        </div>
+      </div>
+      <div class="answer">
+        <div class="q">Q3. 가장 보여주고 싶은 제품</div>
+        <div class="a">콥샐러드</div>
+        <div class="w">
+          02 섹션의 주인공 카드로 크게 배치하고 <code>NEW</code> · <code>저당</code> 배지와
+          &lsquo;단골 재구매 1위&rsquo; 문구를 붙였습니다. 히어로 도넛이 보여주는 420kcal도 콥샐러드 기준이며,
+          추천 엔진에서도 평범한 하루의 기본값 역할을 합니다.
+        </div>
+      </div>
+      <div class="answer">
+        <div class="q">Q4. 나만의 아이디어 기능</div>
+        <div class="a">점심 고민 해결 버튼</div>
+        <div class="w">
+          페이지의 주인공으로 만들었습니다. 매뉴얼의 &lsquo;Primary CTA는 한 화면에 하나&rsquo; 규칙을 역이용해
+          <b>페이지 전체에서 Vital Green Primary 버튼을 이 버튼 하나에만</b> 썼습니다.
+          히어로 CTA조차 Secondary로 낮춰, 시선이 이 버튼으로 모이도록 설계했습니다.
+        </div>
+      </div>
+      <div class="answer" style="grid-column:1/-1">
+        <div class="q">Q5. 페이지의 분위기</div>
+        <div class="a">신선한 초록 (Seed Green)</div>
+        <div class="w">
+          매뉴얼에 &ldquo;한 화면에 Secondary 계열은 하나만&rdquo;이라는 규칙이 있어, 답변과 규칙이 정확히 맞아떨어졌습니다.
+          Soil Brown·Sky Blue를 <b>페이지 전체에서 한 번도 쓰지 않고</b> Seed Green
+          <span class="mono">#84BA45</span> 하나만 포인트로 사용했습니다 &mdash;
+          채소 막대, 담기 버튼, 추천 결과의 체크 표시, 제품 접시 그라데이션까지 전부 초록 계열로 통일했습니다.
+          <div class="swatches">
+            <div class="sw"><div class="c" style="background:#00614E"></div><div class="n"><b>Vital Green</b><span>#00614E</span></div></div>
+            <div class="sw"><div class="c" style="background:#007C5E"></div><div class="n"><b>Harmony Green</b><span>#007C5E</span></div></div>
+            <div class="sw"><div class="c" style="background:#84BA45"></div><div class="n"><b>Seed Green</b><span>#84BA45 · 유일한 포인트색</span></div></div>
+            <div class="sw"><div class="c" style="background:#FDFFE6;border-bottom:1px solid var(--div)"></div><div class="n"><b>Sunshine White</b><span>#FDFFE6</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 디자인 시스템 준수 -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">05 — Compliance</p>
+    <h2>디자인 시스템 준수 사항</h2>
+    <p class="lead">매뉴얼의 규정을 그대로 따랐습니다. 답변과 충돌한 지점은 시스템을 우선했습니다.</p>
+    <div class="checks">
+      <div class="check"><span class="m">&#10003;</span><span>페이지 배경은 <b>Sunshine White</b>, 순백은 카드·모달 표면에만 사용</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>Secondary 계열은 <b>Seed Green 하나만</b> (Soil·Sky 미사용)</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>Primary CTA는 페이지 전체에 <b>단 하나</b></span></div>
+      <div class="check"><span class="m">&#10003;</span><span>8px 리듬 스페이싱, 컨테이너 1280px, 워크호스 radius 14px</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>모든 섀도우가 <b>그린 틴트</b> &mdash; 회색 드롭섀도우 없음</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>모션 120 / 220 / 420ms, ease-out-soft · ease-spring</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>바운스 · 패럴랙스 · 지속 루프 애니메이션 <b>없음</b></span></div>
+      <div class="check"><span class="m">&#10003;</span><span>UI 아이콘은 Lucide 인라인 SVG (stroke 1.75, round cap)</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>로고는 지정 에셋 그대로 &mdash; 폰트로 재현하지 않음</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>마스코트 &lsquo;냠&rsquo;은 단색 실루엣 일러스트 앵커로만 사용</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>카피는 존댓말, 훈계 대신 응원, 스펙은 중점(·)으로 구분</span></div>
+      <div class="check"><span class="m">&#10003;</span><span>숫자 표기 규칙 준수 &mdash; <span class="mono">23g</span> / <span class="mono">420kcal</span> / <span class="mono">&#8361;9,900</span></span></div>
+    </div>
+
+    <div class="note">
+      <b>충돌 처리 1 &mdash; 이모지.</b>
+      &ldquo;색·도형·이모지로 표현해달라&rdquo;는 요청과 매뉴얼의 &ldquo;이모지를 UI 아이콘으로 사용 금지&rdquo; 규정이 충돌했습니다.
+      매뉴얼을 우선해 <b>버튼·내비게이션 아이콘은 Lucide 인라인 SVG</b>로 그리고,
+      이모지는 매뉴얼 자체가 Product Card 예시에서 허용한 <b>제품 이미지 자리와 선택 칩</b>에만 사용했습니다.
+      외부 이미지 링크는 한 개도 쓰지 않았습니다.
+    </div>
+    <div class="note">
+      <b>충돌 처리 2 &mdash; 디자인 소스.</b>
+      사내에 설치된 구버전 브랜드 가이드(배경 <span class="mono">#FFFFFF</span>, 포인트 Sunshine Yellow
+      <span class="mono">#F8CF77</span>)와 첨부된 매뉴얼(Ver. 2025.07.25)이 달랐습니다.
+      최신 매뉴얼을 기준으로 삼았습니다.
+    </div>
+    <div class="note">
+      <b>남은 이슈 &mdash; 한글 본문 폰트.</b>
+      매뉴얼 04장에 &ldquo;한글 본문 폰트 미확정, Pretendard로 대체 중&rdquo;이라는 경고가 그대로 남아 있습니다.
+      이 페이지도 동일하게 Pretendard를 쓰고 있으며, 확정되면 <code>--kr</code> 토큰 한 줄만 교체하면 됩니다.
+    </div>
+  </div>
+</section>
+
+<!-- 기술 메모 -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">06 — Technical</p>
+    <h2>기술 메모</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>단일 파일</h3>
+        <p style="font-size:13.5px;color:var(--char)">HTML · CSS · JS를 <code>index.html</code> 하나에 담았습니다. 빌드 도구나 의존성이 없어 파일을 열면 바로 동작합니다.</p>
+      </div>
+      <div class="card">
+        <h3>외부 이미지 0개</h3>
+        <p style="font-size:13.5px;color:var(--char)">브랜드 로고와 마스코트는 매뉴얼 번들에서 꺼내 data URI로 내장했고, 나머지는 전부 CSS 도형과 이모지입니다.</p>
+      </div>
+      <div class="card">
+        <h3>폰트 내장 (228KB)</h3>
+        <p style="font-size:13.5px;color:var(--char)">삼립호빵체·Chewy는 페이지에 실제 등장하는 462자만 서브셋했고, Montserrat는 가변폰트 원본을 넣었습니다.</p>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="card">
+        <h3>접근성</h3>
+        <ul class="plain">
+          <li>선택 칩은 <code>aria-pressed</code>로 상태를 노출합니다</li>
+          <li>추천 결과 영역은 <code>role="status"</code> · <code>aria-live="polite"</code></li>
+          <li>장식용 이모지·마스코트는 <code>aria-hidden</code> 처리</li>
+          <li>포커스 링은 브랜드 그린 2px (매뉴얼 규정)</li>
+          <li><code>prefers-reduced-motion</code>에서 모든 전환을 끕니다</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>검증한 항목</h3>
+        <ul class="plain">
+          <li>추천 엔진 30개 조합 중 6개 표본 &mdash; 전부 다른 결과 확인</li>
+          <li>같은 조합 반복 &mdash; 최근 추천 회피 동작 확인</li>
+          <li>기록 누적·초기화 동작 확인 (3끼 / 87g / 8종)</li>
+          <li>1440px · 390px 렌더링, 가로 스크롤 <b>0px</b></li>
+          <li>JS 런타임 오류 <b>없음</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap in">
+    <span>&copy; 2026 SWB Corporation.</span>
+    <i>Eat fresh, be your Best.</i>
+    <span>스윗밸런스 자사몰 홈페이지 &mdash; PR 원페이저</span>
+  </div>
+</footer>
+
+</body>
+</html>

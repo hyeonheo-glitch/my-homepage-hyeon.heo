@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>허현의 홈페이지</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f5;
+      color: #1a1a1a;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    h1 {
+      font-size: clamp(1.75rem, 6vw, 3rem);
+      font-weight: 700;
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+    #today {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: #666;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>안녕하세요, 허현입니다</h1>
+    <p id="today"></p>
+  </main>
+  <script>
+    const now = new Date();
+    document.getElementById("today").textContent =
+      now.toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long"
+      });
+  </script>
+</body>
+</html>

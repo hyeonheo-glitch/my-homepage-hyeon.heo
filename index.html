@@ -86,7 +86,7 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--g);outline-offset:2px;border-radius:var(--r-xs)}
 
 .wrap{max-width:var(--container);margin:0 auto;padding:0 var(--space-6)}
-#products,#decide,#brand{scroll-margin-top:84px}
+#products,#decide,#brand,#channels{scroll-margin-top:84px}
 .en{font-family:var(--en)}
 .eyebrow{
   font-family:var(--en);font-size:var(--text-xs);font-weight:700;
@@ -381,6 +381,59 @@ a{color:inherit;text-decoration:none}
 .slogan-bar .kr-slogan{font-family:var(--display-kr);font-weight:700;font-size:var(--text-xl);color:var(--char)}
 
 /* ============================================================
+   Channels — 구매처 & 순위
+   ============================================================ */
+.rank-band{
+  background:var(--g);color:var(--sw);border-radius:var(--r-2xl);
+  padding:var(--space-12);display:flex;align-items:center;gap:var(--space-10);
+  flex-wrap:wrap;position:relative;overflow:hidden;
+}
+.rank-band .bg-word{
+  position:absolute;bottom:-40px;right:24px;font-family:var(--display-en);
+  font-size:150px;line-height:1;color:rgba(253,255,230,.055);
+  pointer-events:none;user-select:none;white-space:nowrap;
+}
+.rank-mark{
+  flex-shrink:0;width:112px;height:112px;border-radius:var(--r-pill);
+  background:var(--seed);color:var(--white);
+  display:flex;align-items:baseline;justify-content:center;gap:2px;
+  font-family:var(--en);font-weight:800;font-size:52px;letter-spacing:-.04em;
+  position:relative;box-shadow:0 10px 28px rgba(0,0,0,.16);
+}
+.rank-mark span{font-size:19px;font-weight:700}
+.rank-body{position:relative;flex:1;min-width:280px}
+.rank-body .t{font-family:var(--display-kr);font-weight:700;
+  font-size:clamp(24px,3.4vw,var(--text-3xl));line-height:1.3;letter-spacing:-.02em}
+.rank-body .d{font-size:var(--text-md);color:rgba(253,255,230,.82);margin-top:var(--space-3);max-width:52ch}
+.rank-note{font-size:var(--text-xs);color:rgba(253,255,230,.6);margin-top:var(--space-5);
+  padding-top:var(--space-3);border-top:1px solid rgba(253,255,230,.18)}
+
+.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6);margin-top:var(--space-8)}
+.ch-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);
+  box-shadow:var(--sh-sm);padding:var(--space-8);display:flex;flex-direction:column;gap:var(--space-3);
+  transition:transform var(--t-base) var(--e-spring),box-shadow var(--t-base) var(--e-out);
+}
+.ch-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.ch-card.-own{border:1.5px solid var(--g)}
+.ch-mark{
+  width:52px;height:52px;border-radius:var(--r-md);background:var(--tint);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:var(--text-md);color:var(--g);letter-spacing:-.02em;
+}
+.ch-card.-own .ch-mark{background:var(--g);color:var(--sw)}
+.ch-card h4{font-size:var(--text-lg);font-weight:700;color:var(--ink);display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.ch-card p{font-size:var(--text-sm);color:var(--char);flex:1}
+.ch-card .btn{align-self:flex-start;margin-top:var(--space-2)}
+
+@media (max-width:1024px){ .channels{grid-template-columns:1fr} }
+@media (max-width:720px){
+  .rank-band{padding:var(--space-8);gap:var(--space-6)}
+  .rank-mark{width:88px;height:88px;font-size:40px}
+  .rank-band .bg-word{font-size:110px}
+}
+
+/* ============================================================
    Footer
    ============================================================ */
 .site-footer{background:var(--g);color:rgba(253,255,230,.72);padding:var(--space-16) 0 var(--space-10);margin-top:var(--space-24)}
@@ -452,6 +505,7 @@ a{color:inherit;text-decoration:none}
       <a href="#products">대표 메뉴</a>
       <a href="#decide">점심 정해주기</a>
       <a href="#brand">브랜드 이야기</a>
+      <a href="#channels">구매처</a>
     </nav>
     <a class="btn btn-secondary btn-sm" href="#decide">
       오늘 점심 정하기
@@ -705,6 +759,72 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- ========================= Channels ========================= -->
+<section class="section" id="channels">
+  <div class="wrap">
+    <div class="section-head rv">
+      <p class="eyebrow">04 — Where to Buy</p>
+      <h2 class="sec-title">어디서 주문하셔도, 같은 한 끼</h2>
+      <p class="sec-sub">
+        자사몰은 물론 마켓컬리와 쿠팡에서도 스윗밸런스를 만나실 수 있습니다.
+        늘 쓰시던 곳에서 그대로 주문하세요.
+      </p>
+    </div>
+
+    <div class="rank-band rv">
+      <div class="bg-word" aria-hidden="true">SweetBalance</div>
+      <div class="rank-mark">1<span>st</span></div>
+      <div class="rank-body">
+        <div class="t">샐러드 업계 1위</div>
+        <p class="d">
+          많은 분들이 매일의 한 끼로 스윗밸런스를 골라 주신 결과입니다.
+          그 신뢰에 맞게, 재료와 숫자를 숨기지 않겠습니다.
+        </p>
+        <!-- ⚠️ 배포 전 필수 확인
+             표시·광고의 공정화에 관한 법률상 '1위' 같은 순위·최상급 표현은
+             조사기관 · 집계 기준 · 기준 시점을 함께 밝혀야 하며, 사업자에게
+             실증 책임이 있습니다. 아래 문구를 실제 근거로 교체한 뒤 배포하세요.
+             예) "2025년 온라인 샐러드 카테고리 매출 기준, ○○리서치" -->
+        <p class="rank-note">※ 근거 표기 예정 — 조사기관 · 집계 기준 · 기준 시점을 채워 주세요.</p>
+      </div>
+    </div>
+
+    <div class="channels">
+      <div class="ch-card -own rv">
+        <div class="ch-mark" aria-hidden="true">SB</div>
+        <h4>스윗밸런스 자사몰</h4>
+        <p>전체 메뉴와 정기구독을 가장 먼저 만나실 수 있는 곳입니다.</p>
+        <a class="btn btn-secondary btn-sm" href="https://sweetbalance.kr" target="_blank" rel="noopener">
+          주문하러 가기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
+        </a>
+      </div>
+
+      <div class="ch-card rv">
+        <div class="ch-mark" aria-hidden="true">컬리</div>
+        <h4>마켓컬리</h4>
+        <p>새벽배송으로 받아보시던 그대로, 컬리에서도 주문하실 수 있습니다.</p>
+        <!-- TODO: 실제 브랜드관/검색 주소로 교체해 주세요 -->
+        <a class="btn btn-secondary btn-sm" href="https://www.kurly.com/search?sword=스윗밸런스" target="_blank" rel="noopener">
+          주문하러 가기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
+        </a>
+      </div>
+
+      <div class="ch-card rv">
+        <div class="ch-mark" aria-hidden="true">쿠팡</div>
+        <h4>쿠팡</h4>
+        <p>로켓배송으로 더 빠르게. 필요할 때 바로 받아보세요.</p>
+        <!-- TODO: 실제 브랜드관/검색 주소로 교체해 주세요 -->
+        <a class="btn btn-secondary btn-sm" href="https://www.coupang.com/np/search?q=스윗밸런스" target="_blank" rel="noopener">
+          주문하러 가기
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <!-- ========================= Footer ========================= -->
@@ -720,7 +840,7 @@ a{color:inherit;text-decoration:none}
           <h5>Shop</h5>
           <a href="#products">대표 메뉴</a>
           <a href="#decide">오늘의 한 끼 추천</a>
-          <a href="#decide">정기구독</a>
+          <a href="#channels">구매처 안내</a>
         </div>
         <div class="footer-col">
           <h5>Brand</h5>

@@ -19,14 +19,15 @@
   --sh-md:0 8px 24px rgba(27,42,36,.10);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--sw);color:var(--ink);font-family:var(--kr);line-height:1.7;-webkit-font-smoothing:antialiased}
+body{background:var(--sw);color:var(--ink);font-family:var(--kr);line-height:1.7;-webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word}
 img{max-width:100%;display:block}
 .wrap{max-width:960px;margin:0 auto;padding:0 24px}
 
 /* Cover */
 .cover{background:var(--g);color:var(--sw);padding:56px 0 48px;position:relative;overflow:hidden}
 .cover .mark{background:var(--white);border-radius:var(--r-md);padding:12px 18px;display:inline-block;margin-bottom:24px}
-.cover .mark img{height:26px}
+.cover .mark img{height:26px;width:auto}
 .cover h1{font-size:clamp(28px,4.6vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1.2}
 .cover p{font-size:17px;color:rgba(253,255,230,.78);margin-top:10px;max-width:60ch}
 .cover .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(253,255,230,.18)}
@@ -192,7 +193,7 @@ footer i{font-style:italic;color:rgba(253,255,230,.5)}
             헤드라인은 <b>&ldquo;오늘도 균형있게&rdquo;</b>, 아래 받침 문장은 &ldquo;바쁜 하루에도, 운동 뒤에도.&rdquo;
             오른쪽은 이미지 없이 CSS <code>conic-gradient</code>로 그린 <b>균형 도넛</b>입니다 &mdash;
             단백질 40% / 채소 30% / 곡물·좋은 지방 30%, 가운데에 420kcal.
-            아래에는 12분 · 34g · 새벽 4시 세 가지 사실을 배치했습니다.
+            아래에는 12분 · 34g · 새벽 6시쯤 세 가지 사실을 배치했습니다.
           </div>
         </div>
       </div>

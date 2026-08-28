@@ -19,14 +19,15 @@
   --sh-md:0 8px 24px rgba(27,42,36,.10);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--sw);color:var(--ink);font-family:var(--kr);line-height:1.7;-webkit-font-smoothing:antialiased}
+body{background:var(--sw);color:var(--ink);font-family:var(--kr);line-height:1.7;-webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word}
 img{max-width:100%;display:block}
 .wrap{max-width:960px;margin:0 auto;padding:0 24px}
 
 /* Cover */
 .cover{background:var(--g);color:var(--sw);padding:56px 0 48px;position:relative;overflow:hidden}
 .cover .mark{background:var(--white);border-radius:var(--r-md);padding:12px 18px;display:inline-block;margin-bottom:24px}
-.cover .mark img{height:26px}
+.cover .mark img{height:26px;width:auto}
 .cover h1{font-size:clamp(28px,4.6vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1.2}
 .cover p{font-size:17px;color:rgba(253,255,230,.78);margin-top:10px;max-width:60ch}
 .cover .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(253,255,230,.18)}
@@ -192,7 +193,7 @@ footer i{font-style:italic;color:rgba(253,255,230,.5)}
             헤드라인은 <b>&ldquo;오늘도 균형있게&rdquo;</b>, 아래 받침 문장은 &ldquo;바쁜 하루에도, 운동 뒤에도.&rdquo;
             오른쪽은 이미지 없이 CSS <code>conic-gradient</code>로 그린 <b>균형 도넛</b>입니다 &mdash;
             단백질 40% / 채소 30% / 곡물·좋은 지방 30%, 가운데에 420kcal.
-            아래에는 12분 · 34g · 새벽 4시 세 가지 사실을 배치했습니다.
+            아래에는 12분 · 34g · 새벽 6시쯤 세 가지 사실을 배치했습니다.
           </div>
         </div>
       </div>
@@ -221,10 +222,21 @@ footer i{font-style:italic;color:rgba(253,255,230,.5)}
       <div class="screen">
         <div class="no">04</div>
         <div>
-          <div class="t">하단 브랜드 소개</div>
+          <div class="t">브랜드 소개</div>
           <div class="d">
             미션 문장(국문 + 영문), 브랜드 퍼스낼리티 Warm · Fresh · Honest 세 장,
-            그리고 슬로건 &ldquo;Eat fresh, be your Best. / 진정으로 건강한 한 끼, 오늘도 균형있게.&rdquo;로 마무리합니다.
+            그리고 슬로건 &ldquo;Eat fresh, be your Best. / 진정으로 건강한 한 끼, 오늘도 균형있게.&rdquo;를 배치합니다.
+          </div>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="no">05</div>
+        <div>
+          <div class="t">구매처</div>
+          <div class="d">
+            &ldquo;샐러드 업계 1위&rdquo; 배너와 함께 자사몰 &middot; 마켓컬리 &middot; 쿠팡 세 곳의 주문 채널을 안내합니다.
+            <b>순위 표현에는 근거 표기가 필요</b>하므로(표시&middot;광고의 공정화에 관한 법률),
+            배너 하단에 조사기관 &middot; 집계 기준 &middot; 기준 시점을 채울 자리를 남겨 두었습니다.
           </div>
         </div>
       </div>

@@ -219,7 +219,9 @@ a{color:inherit;text-decoration:none}
   min-height:340px;font-size:118px;line-height:1;
   background:linear-gradient(135deg,#E4EFDC,#A8C890);
 }
-.plate .tags{position:absolute;top:var(--space-4);left:var(--space-4);display:flex;gap:6px}
+.plate .tags{position:absolute;top:var(--space-4);left:var(--space-4);display:flex;gap:6px;z-index:2}
+/* 실제 제품 사진이 있으면 접시 전체를 채웁니다 (없으면 이모지 접시로 폴백) */
+.plate-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .plate .ring{
   position:absolute;width:240px;height:240px;border-radius:var(--r-pill);
   border:2px dashed rgba(0,97,78,.22);background:rgba(255,255,255,.42);
@@ -227,22 +229,9 @@ a{color:inherit;text-decoration:none}
 .p-card .plate .ring{width:132px;height:132px}
 .hero-product-body{padding:var(--space-10);display:flex;flex-direction:column;justify-content:center}
 .hero-product-body h3{font-family:var(--display-kr);font-weight:700;font-size:var(--text-3xl);letter-spacing:-.02em;color:var(--ink);line-height:1.2}
-.hero-product-body .en-name{font-family:var(--en);font-weight:600;font-size:var(--text-sm);color:var(--slate);margin-top:var(--space-1)}
 .hero-product-body p{color:var(--char);margin:var(--space-4) 0 var(--space-5);max-width:46ch}
-.spec-line{font-family:var(--en);font-weight:600;font-size:var(--text-sm);color:var(--g);margin-bottom:var(--space-6)}
-.nutri{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-8)}
-.nutri-row{display:grid;grid-template-columns:76px 1fr 62px;align-items:center;gap:var(--space-3);font-size:var(--text-xs)}
-.nutri-row .lb{color:var(--slate);font-weight:600}
-.nutri-row .vl{font-family:var(--en);font-weight:700;color:var(--ink);text-align:right}
-.bar{height:8px;border-radius:var(--r-pill);background:var(--tint);overflow:hidden}
-.bar span{display:block;height:100%;border-radius:var(--r-pill);width:0;
-  transition:width var(--t-slow) var(--e-out)}
-.bar.-g span{background:var(--g)}
-.bar.-seed span{background:var(--seed)}
-.bar.-g2 span{background:var(--g2)}
-.price-row{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
-.price{font-family:var(--en);font-weight:800;font-size:var(--text-2xl);color:var(--g);letter-spacing:-.02em}
-
+.price-row{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--space-8)}
 .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6);margin-top:var(--space-6)}
 .p-card{overflow:hidden;display:flex;flex-direction:column;
   transition:transform var(--t-base) var(--e-spring),box-shadow var(--t-base) var(--e-out)}
@@ -250,10 +239,9 @@ a{color:inherit;text-decoration:none}
 .p-card .plate{min-height:170px;font-size:62px}
 .p-card-body{padding:var(--space-5);display:flex;flex-direction:column;gap:var(--space-2);flex:1}
 .p-card-body h4{font-family:var(--kr);font-weight:700;font-size:var(--text-md);color:var(--ink)}
-.p-card-body .en-name{font-family:var(--en);font-size:11px;color:var(--slate)}
-.p-card-body .spec{font-family:var(--en);font-size:var(--text-xs);color:var(--char);margin-top:var(--space-1)}
-.p-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:var(--space-3)}
-.p-card-foot .price{font-size:var(--text-lg)}
+.p-card-body .p-card-desc{font-size:var(--text-sm);color:var(--char);line-height:1.6}
+.p-card-body .p-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:var(--space-1)}
+.p-card-foot{display:flex;align-items:center;margin-top:auto;padding-top:var(--space-4)}
 .icon-btn{
   width:34px;height:34px;border-radius:var(--r-pill);background:var(--g);color:var(--sw);
   display:flex;align-items:center;justify-content:center;
@@ -332,7 +320,6 @@ a{color:inherit;text-decoration:none}
 .result-kicker svg{width:15px;height:15px}
 .result-body h3{font-family:var(--display-kr);font-weight:700;font-size:var(--text-2xl);
   letter-spacing:-.02em;color:var(--ink);line-height:1.25}
-.result-body .en-name{font-family:var(--en);font-weight:600;font-size:var(--text-xs);color:var(--slate);margin-top:2px}
 .reason{margin:var(--space-4) 0 var(--space-5);font-size:var(--text-md);color:var(--char);line-height:1.7}
 .why{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-6)}
 .why li{display:flex;gap:var(--space-2);align-items:flex-start;font-size:var(--text-sm);color:var(--char);list-style:none}
@@ -342,6 +329,8 @@ a{color:inherit;text-decoration:none}
 .result-meta div{display:flex;align-items:center;gap:7px;font-size:var(--text-sm);color:var(--char)}
 .result-meta svg{width:16px;height:16px;color:var(--g)}
 .result-meta b{font-family:var(--en);font-weight:700;color:var(--ink)}
+.result-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--space-6);
+  padding-bottom:var(--space-6);border-bottom:1px solid var(--div)}
 .result-actions{display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center}
 
 /* 이번 주 기록 */
@@ -497,22 +486,22 @@ a{color:inherit;text-decoration:none}
         </a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="n">12분</div><div class="l">고르고 데우면 끝납니다</div></div>
-        <div class="hero-stat"><div class="n">34g</div><div class="l">한 끼에 담기는 최대 단백질</div></div>
+        <div class="hero-stat"><div class="n">4종</div><div class="l">오늘 고를 수 있는 샐러드</div></div>
+        <div class="hero-stat"><div class="n">3번</div><div class="l">고르면 메뉴가 정해집니다</div></div>
         <div class="hero-stat"><div class="n">새벽 6시쯤</div><div class="l">문 앞에 도착합니다</div></div>
       </div>
     </div>
 
     <div class="hero-visual rv">
       <div class="dial-shell">
-        <div class="balance-dial" role="img" aria-label="한 끼 구성 비율: 단백질 40퍼센트, 채소 30퍼센트, 곡물과 지방 30퍼센트"></div>
+        <div class="balance-dial" role="img" aria-label="한 끼의 균형: 단백질, 채소, 곡물"></div>
         <div class="dial-core">
-          <div class="k">420</div>
-          <div class="u">KCAL</div>
-          <div class="m">오늘의 콥샐러드 한 그릇</div>
+          <div class="k">균형</div>
+          <div class="u">BALANCE</div>
+          <div class="m">한 그릇 안에서</div>
         </div>
-        <div class="dial-legend lg-1"><i style="background:var(--g)"></i>단백질 23g</div>
-        <div class="dial-legend lg-2"><i style="background:var(--seed)"></i>채소 4종</div>
+        <div class="dial-legend lg-1"><i style="background:var(--g)"></i>단백질</div>
+        <div class="dial-legend lg-2"><i style="background:var(--seed)"></i>채소</div>
         <div class="dial-legend lg-3"><i style="background:var(--g2)"></i>곡물 · 좋은 지방</div>
       </div>
     </div>
@@ -524,53 +513,38 @@ a{color:inherit;text-decoration:none}
   <div class="wrap">
     <div class="section-head rv">
       <p class="eyebrow">01 — Signature</p>
-      <h2 class="sec-title">오늘 가장 보여드리고 싶은 한 끼, 콥샐러드</h2>
+      <h2 class="sec-title">오늘 가장 보여드리고 싶은 한 끼</h2>
       <p class="sec-sub">
-        스윗밸런스의 얼굴입니다. 닭가슴살과 달걀, 채소 4종을 한 그릇에 담고
-        드레싱은 저당으로 바꿨습니다. 숫자를 먼저 보여드릴게요.
+        운동 전에도, 운동 뒤에도 잘 맞는 한 끼입니다.
+        아래 세 가지는 오늘 함께 고를 수 있는 나머지 메뉴예요.
       </p>
     </div>
 
     <article class="card hero-product rv">
-      <div class="plate" aria-hidden="true">
+      <div class="plate">
         <div class="ring"></div>
-        🥗
-        <div class="tags"><span class="badge badge-new">NEW</span><span class="badge badge-soft">저당</span></div>
+        🍠
+        <!-- 사진 파일(assets/menu/grilled-chicken.jpg)이 없으면 스스로 사라져 위 접시가 보입니다 -->
+        <img class="plate-img" src="assets/menu/grilled-chicken.jpg" alt="" onerror="this.remove()">
       </div>
       <div class="hero-product-body">
-        <h3>콥샐러드</h3>
-        <div class="en-name">Cobb Salad</div>
-        <p>
-          닭가슴살 120g, 삶은 달걀, 로메인·라디치오·방울토마토·아보카도.
-          드레싱은 설탕을 뺀 홀그레인 머스타드 베이스입니다. 뜯어서 바로 드세요.
-        </p>
-        <div class="spec-line">단백질 23g · 식이섬유 8g · 420kcal · 조리 3분</div>
-
-        <div class="nutri">
-          <div class="nutri-row">
-            <span class="lb">단백질</span>
-            <span class="bar -g"><span data-fill="66"></span></span>
-            <span class="vl">23g</span>
-          </div>
-          <div class="nutri-row">
-            <span class="lb">채소</span>
-            <span class="bar -seed"><span data-fill="90"></span></span>
-            <span class="vl">4종</span>
-          </div>
-          <div class="nutri-row">
-            <span class="lb">칼로리</span>
-            <span class="bar -g2"><span data-fill="52"></span></span>
-            <span class="vl">420kcal</span>
-          </div>
+        <h3>구운 고구마와 촉촉한<br>그릴드 닭가슴살 샐러드</h3>
+        <p>촉촉한 그릴드 닭가슴살과 고소한 시저 드레싱이 조화롭게 어울리는 샐러드입니다.
+           구운 고구마가 함께 들어가, 운동 전후 어느 쪽으로도 잘 맞습니다.</p>
+        <div class="tag-row">
+          <span class="badge badge-soft">그릴드 닭가슴살</span>
+          <span class="badge badge-soft">구운 고구마</span>
+          <span class="badge badge-soft">시저 드레싱</span>
         </div>
-
         <div class="price-row">
-          <span class="price">₩9,900</span>
-          <button class="btn btn-accent" type="button" data-add="콥샐러드">
+          <button class="btn btn-accent" type="button" data-add="구운 고구마와 촉촉한 그릴드 닭가슴살 샐러드">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             <span>장바구니 담기</span>
           </button>
-          <span class="badge badge-seed">단골 재구매 1위</span>
+          <a class="btn btn-ghost" href="#decide">
+            오늘 나에게 맞는지 확인하기
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </article>
@@ -645,51 +619,18 @@ a{color:inherit;text-decoration:none}
       <!-- Result -->
       <div class="card result" id="result" role="status" aria-live="polite">
         <div class="result-top">
-          <div class="result-plate" id="rPlate" aria-hidden="true"><div class="ring"></div><span id="rEmoji">🥗</span></div>
+          <div class="result-plate" id="rPlate" aria-hidden="true"><div class="ring"></div>🥗</div>
           <div class="result-body">
             <div class="result-kicker">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
               오늘의 한 끼로 골랐어요
             </div>
             <h3 id="rName">콥샐러드</h3>
-            <div class="en-name" id="rEn">Cobb Salad</div>
             <p class="reason" id="rReason"></p>
             <ul class="why" id="rWhy"></ul>
-            <div class="result-meta">
-              <div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                조리 <b id="rPrep">3분</b>
-              </div>
-              <div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-                <b id="rKcal">420kcal</b>
-              </div>
-              <div>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-                단백질 <b id="rProtein">23g</b>
-              </div>
-            </div>
-
-            <div class="nutri" id="rNutri">
-              <div class="nutri-row">
-                <span class="lb">단백질</span>
-                <span class="bar -g"><span id="rbP"></span></span>
-                <span class="vl" id="rvP">23g</span>
-              </div>
-              <div class="nutri-row">
-                <span class="lb">채소</span>
-                <span class="bar -seed"><span id="rbV"></span></span>
-                <span class="vl" id="rvV">4종</span>
-              </div>
-              <div class="nutri-row">
-                <span class="lb">칼로리</span>
-                <span class="bar -g2"><span id="rbK"></span></span>
-                <span class="vl" id="rvK">420kcal</span>
-              </div>
-            </div>
+            <div class="result-tags" id="rTags"></div>
 
             <div class="result-actions">
-              <span class="price" id="rPrice">₩9,900</span>
               <button class="btn btn-accent" type="button" id="rAdd">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 <span id="rAddText">이 메뉴로 담기</span>
@@ -714,8 +655,7 @@ a{color:inherit;text-decoration:none}
         </div>
         <div class="log-stats">
           <div class="log-stat"><div class="n" id="logCount">0끼</div><div class="l">담은 한 끼</div></div>
-          <div class="log-stat"><div class="n" id="logProtein">0g</div><div class="l">누적 단백질</div></div>
-          <div class="log-stat"><div class="n" id="logVeg">0종</div><div class="l">누적 채소</div></div>
+          <div class="log-stat"><div class="n" id="logKinds">0종</div><div class="l">고른 메뉴 종류</div></div>
         </div>
         <div class="log-list" id="logList"><span class="log-empty">아직 담긴 식단이 없어요. 오늘 어떤 한 끼를 고를까요?</span></div>
       </div>
@@ -810,60 +750,44 @@ a{color:inherit;text-decoration:none}
      메뉴 데이터 — 숫자는 브랜드 보이스 원칙(Specific over abstract)에 따라
      전부 명시합니다. veg는 채소 가짓수, prep은 조리 분.
      ========================================================== */
+  // 실제 판매 제품 4종. blurb는 자사몰 상세 문구 그대로입니다.
+  // img: assets/menu/ 에 사진을 넣으면 이모지 대신 사진이 표시됩니다.
+  //      파일이 없으면 onerror로 스스로 사라져 이모지 접시로 폴백합니다.
+  // ⚠ 칼로리·단백질·가격은 실제 값을 받기 전이라 넣지 않았습니다.
+  //   p / light / hearty / gentle / energy 는 추천 계산에만 쓰는 내부 가중치이고
+  //   전부 위 제품 설명에서 도출했습니다. 화면에 숫자로 노출하지 않습니다.
   var MENUS = [
-    { id:'cobb',   name:'콥샐러드',            en:'Cobb Salad',              emoji:'🥗',
-      kcal:420, protein:23, fiber:8,  veg:4, prep:3, price:9900,
+    { id:'honey', name:'허니 리코타치즈 샐러드', emoji:'🥗',
+      img:'assets/menu/honey-ricotta.jpg',
       grad:'linear-gradient(135deg,#E4EFDC,#A8C890)',
-      blurb:'닭가슴살 120g, 삶은 달걀, 채소 4종, 저당 드레싱.',
-      fit:{ normal:2, prewk:1, postwk:2, late:1, tummy:1 } },
+      blurb:'꿀이 더해진 리코타 치즈와 복숭아의 달콤함으로 꽉 채운 샐러드',
+      tags:['리코타 치즈','꿀','복숭아'],
+      p:1, light:3, hearty:1, gentle:2, energy:1,
+      fit:{ normal:1, prewk:1, postwk:0, late:2, tummy:2 } },
 
-    { id:'chicken',name:'닭가슴살 스테이크',     en:'Chicken Breast Steak',    emoji:'🍗',
-      kcal:280, protein:32, fiber:2,  veg:2, prep:3, price:7500,
+    { id:'cajun', name:'케이준 치킨 샐러드', emoji:'🍗',
+      img:'assets/menu/cajun-chicken.jpg',
       grad:'linear-gradient(135deg,#EAF1E2,#B9CE9B)',
-      blurb:'저온 조리한 닭가슴살 180g, 소금·후추만.',
-      fit:{ normal:1, prewk:0, postwk:3, late:2, tummy:0 } },
+      blurb:'부드러운 치킨 너겟과 새콤한 사워크림, 토마토 맛 드레싱의 조화가 좋은 샐러드',
+      tags:['치킨 너겟','사워크림','토마토 드레싱'],
+      p:2, light:1, hearty:3, gentle:1, energy:2,
+      fit:{ normal:2, prewk:0, postwk:2, late:0, tummy:-1 } },
 
-    { id:'shrimp', name:'그릴드 쉬림프 샐러드',  en:'Grilled Shrimp Salad',    emoji:'🍤',
-      kcal:360, protein:26, fiber:6,  veg:5, prep:4, price:11400,
-      grad:'linear-gradient(135deg,#E8F0DE,#B0CA92)',
-      blurb:'구운 새우 10마리, 채소 5종, 레몬 드레싱.',
-      fit:{ normal:1, prewk:1, postwk:2, late:1, tummy:1 } },
-
-    { id:'grain',  name:'로스트 치킨 그레인볼',  en:'Roast Chicken Grain Bowl',emoji:'🍚',
-      kcal:510, protein:29, fiber:9,  veg:4, prep:6, price:10900,
+    { id:'grilled', name:'구운 고구마와 촉촉한 그릴드 닭가슴살 샐러드', emoji:'🍠',
+      img:'assets/menu/grilled-chicken.jpg',
       grad:'linear-gradient(135deg,#E7EEDD,#AFC894)',
-      blurb:'현미·퀴노아 베이스에 로스트 치킨과 구운 채소.',
-      fit:{ normal:1, prewk:1, postwk:2, late:-1, tummy:-1 } },
+      blurb:'촉촉한 그릴드 닭가슴살과 고소한 시저 드레싱이 조화롭게 어울리는 샐러드',
+      tags:['그릴드 닭가슴살','구운 고구마','시저 드레싱'],
+      p:3, light:2, hearty:3, gentle:2, energy:3,
+      fit:{ normal:2, prewk:3, postwk:3, late:1, tummy:1 } },
 
-    { id:'steak',  name:'수비드 스테이크 샐러드',en:'Sous-vide Steak Salad',   emoji:'🥩',
-      kcal:470, protein:34, fiber:5,  veg:4, prep:6, price:13800,
-      grad:'linear-gradient(135deg,#E9EFE0,#B4C996)',
-      blurb:'수비드 부채살 150g, 루꼴라와 발사믹.',
-      fit:{ normal:1, prewk:-2, postwk:3, late:-2, tummy:-2 } },
-
-    { id:'pumpkin',name:'단호박 리코타 샐러드',  en:'Pumpkin Ricotta Salad',   emoji:'🎃',
-      kcal:350, protein:12, fiber:7,  veg:5, prep:3, price:8900,
+    { id:'mushroom', name:'구운버섯 단호박 샐러드', emoji:'🍄',
+      img:'assets/menu/mushroom-pumpkin.jpg',
       grad:'linear-gradient(135deg,#EDF0DF,#C3D2A0)',
-      blurb:'구운 단호박과 리코타, 호두 한 줌.',
-      fit:{ normal:1, prewk:3, postwk:-2, late:1, tummy:2 } },
-
-    { id:'tofu',   name:'두부 유부 샐러드',      en:'Tofu & Yuba Salad',       emoji:'🍱',
-      kcal:330, protein:18, fiber:6,  veg:5, prep:2, price:8400,
-      grad:'linear-gradient(135deg,#E6EFDF,#AEC993)',
-      blurb:'국산 두부 200g, 유부, 참깨 드레싱.',
-      fit:{ normal:1, prewk:2, postwk:1, late:2, tummy:3 } },
-
-    { id:'wrap',   name:'치킨 시저 랩',          en:'Chicken Caesar Wrap',     emoji:'🌯',
-      kcal:390, protein:24, fiber:5,  veg:3, prep:2, price:7900,
-      grad:'linear-gradient(135deg,#EBF0E1,#BACE9C)',
-      blurb:'통밀 또띠아에 닭가슴살과 로메인, 시저 드레싱.',
-      fit:{ normal:1, prewk:2, postwk:1, late:1, tummy:-1 } },
-
-    { id:'soup',   name:'렌틸 채소 수프',        en:'Lentil Vegetable Soup',   emoji:'🍲',
-      kcal:300, protein:14, fiber:10, veg:6, prep:5, price:7600,
-      grad:'linear-gradient(135deg,#E5EEDE,#A9C68F)',
-      blurb:'렌틸콩과 채소 6종을 오래 끓인 수프.',
-      fit:{ normal:1, prewk:2, postwk:-1, late:3, tummy:3 } }
+      blurb:'3가지 버섯의 향과 맛이 조화로운 샐러드',
+      tags:['버섯 3종','단호박'],
+      p:1, light:3, hearty:2, gentle:3, energy:2,
+      fit:{ normal:1, prewk:2, postwk:0, late:3, tummy:3 } }
   ];
 
   var STATE_LABEL = {
@@ -873,6 +797,7 @@ a{color:inherit;text-decoration:none}
   var TIME_LABEL = { quick:'10분 안에', relaxed:'여유 있게' };
   var GOAL_LABEL = { protein:'단백질 채우기', light:'가볍게', heavy:'든든하게' };
 
+  var HERO_ID = 'grilled';          // 대표 제품 (히어로 카드에 크게 노출)
   var picks = { time:'quick', state:'normal', goal:'protein' };
   var recent = [];              // 직전 추천 id — 같은 답에도 다양성 확보
   var current = null;
@@ -880,27 +805,35 @@ a{color:inherit;text-decoration:none}
 
   var $ = function(id){ return document.getElementById(id); };
 
+  // 사진이 있으면 사진을, 없으면 점선 접시 위 이모지를 그립니다.
+  function plateInner(m){
+    var base = '<div class="ring"></div>' + m.emoji;
+    if(!m.img) return base;
+    // 사진을 이모지 접시 위에 덮되, 파일이 없으면 스스로 사라져 접시가 드러납니다.
+    return base + '<img class="plate-img" src="' + m.img + '" alt="" onerror="this.remove()">';
+  }
+
   /* ---------- 사이드 제품 카드 렌더 ---------- */
   (function renderSideProducts(){
     var host = $('sideProducts');
     if(!host) return;
-    ['chicken','shrimp','grain'].forEach(function(id){
-      var m = MENUS.filter(function(x){ return x.id === id; })[0];
+    MENUS.filter(function(m){ return m.id !== HERO_ID; }).forEach(function(m){
       var el = document.createElement('article');
       el.className = 'card p-card rv';
       el.innerHTML =
-        '<div class="plate" style="background:' + m.grad + '" aria-hidden="true">' +
-          '<div class="ring"></div>' + m.emoji +
-          (id === 'chicken' ? '<div class="tags"><span class="badge badge-best">BEST</span></div>' : '') +
+        '<div class="plate" style="background:' + m.grad + '">' +
+          plateInner(m) +
         '</div>' +
         '<div class="p-card-body">' +
           '<h4>' + m.name + '</h4>' +
-          '<div class="en-name">' + m.en + '</div>' +
-          '<div class="spec">단백질 ' + m.protein + 'g · 식이섬유 ' + m.fiber + 'g · ' + m.kcal + 'kcal</div>' +
+          '<p class="p-card-desc">' + m.blurb + '</p>' +
+          '<div class="p-card-tags">' + m.tags.map(function(t){
+            return '<span class="badge badge-soft">' + t + '</span>';
+          }).join('') + '</div>' +
           '<div class="p-card-foot">' +
-            '<span class="price">₩' + m.price.toLocaleString() + '</span>' +
-            '<button class="icon-btn" type="button" data-add="' + m.name + '" aria-label="' + m.name + ' 장바구니에 담기">' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>' +
+            '<button class="btn btn-accent btn-sm" type="button" data-add="' + m.name + '">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
+              '<span>담기</span>' +
             '</button>' +
           '</div>' +
         '</div>';
@@ -932,49 +865,49 @@ a{color:inherit;text-decoration:none}
      추천 엔진 — 시간 / 컨디션 / 목표를 점수화해 딱 하나를 고릅니다.
      ========================================================== */
   function score(m){
-    var s = 0, why = [];
+    var sc = 0, why = [];
 
-    // 시간
+    // 시간 — 샐러드는 모두 바로 드실 수 있으므로 '먹는 데 쓸 시간'으로 봅니다
     if(picks.time === 'quick'){
-      if(m.prep <= 3){ s += 3; why.push('조리 ' + m.prep + '분 — 점심시간 안에 충분히 끝납니다.'); }
-      else if(m.prep <= 4){ s += 1; }
-      else { s -= 2.5; }
+      if(m.light >= 3){ sc += 2; why.push('가볍게 구성돼 짧은 점심시간에도 부담이 없어요.'); }
+      else if(m.light === 2){ sc += 1; }
+      else { sc -= 1; }
     } else {
-      s += 1;
-      if(m.prep >= 5){ s += 1; why.push('여유 있게 데워 드시기 좋은 조리 ' + m.prep + '분 메뉴예요.'); }
+      if(m.hearty >= 3){ sc += 2; why.push('천천히 먹기 좋은 든든한 구성이에요.'); }
+      else if(m.hearty === 2){ sc += 1; }
     }
 
     // 목표
     if(picks.goal === 'protein'){
-      if(m.protein >= 30){ s += 3; why.push('단백질 ' + m.protein + 'g — 한 끼로 목표를 거의 다 채웁니다.'); }
-      else if(m.protein >= 23){ s += 1.5; why.push('단백질 ' + m.protein + 'g이 들어 있어요.'); }
-      else { s -= 1.5; }
+      if(m.p >= 3){ sc += 3; why.push('그릴드 닭가슴살이 들어가 단백질을 챙기기 좋아요.'); }
+      else if(m.p === 2){ sc += 1.5; why.push('치킨이 들어가 단백질도 함께 챙길 수 있어요.'); }
+      else { sc -= 1.5; }
     } else if(picks.goal === 'light'){
-      if(m.kcal <= 350){ s += 3; why.push(m.kcal + 'kcal — 오후가 무겁지 않은 무게예요.'); }
-      else if(m.kcal <= 400){ s += 1; }
-      else { s -= 2; }
-    } else { // heavy
-      if(m.kcal >= 460){ s += 3; why.push(m.kcal + 'kcal · 식이섬유 ' + m.fiber + 'g으로 오래 든든합니다.'); }
-      else if(m.kcal >= 400){ s += 1; }
-      else { s -= 2; }
+      if(m.light >= 3){ sc += 3; why.push('채소 중심이라 오후가 무겁지 않아요.'); }
+      else if(m.light === 2){ sc += 1; }
+      else { sc -= 2; }
+    } else {
+      if(m.hearty >= 3){ sc += 3; why.push('한 끼로 충분히 든든한 구성입니다.'); }
+      else if(m.hearty === 2){ sc += 1; }
+      else { sc -= 2; }
     }
 
     // 컨디션
     var f = m.fit[picks.state] || 0;
-    s += f;
+    sc += f;
     if(f >= 2){
       if(picks.state === 'postwk')      why.push('운동 직후엔 단백질을 빠르게. 지금 필요한 구성이에요.');
-      else if(picks.state === 'prewk')  why.push('운동 전에 부담 없이, 탄수화물은 챙기는 구성입니다.');
-      else if(picks.state === 'late')   why.push('늦은 끼니에 부담이 적게 설계된 메뉴예요.');
-      else if(picks.state === 'tummy')  why.push('식이섬유 ' + m.fiber + 'g, 속이 편한 재료로만 담았어요.');
-      else                              why.push('무난한 하루에 가장 균형이 좋은 기본값입니다.');
+      else if(picks.state === 'prewk')  why.push('구운 고구마로 운동 전 에너지를 채우기 좋아요.');
+      else if(picks.state === 'late')   why.push('늦은 끼니에 부담이 적은 구성입니다.');
+      else if(picks.state === 'tummy')  why.push('구운 채소 위주라 속이 편한 구성이에요.');
+      else                              why.push('무난한 하루에 가장 균형이 좋은 선택입니다.');
     }
 
-    // 다양성 — 최근 추천은 조금 뒤로
+    // 다양성 — 메뉴가 4종이라 직전 2개까지만 뒤로 미룹니다
     var r = recent.indexOf(m.id);
-    if(r > -1) s -= (3 - r) * 1.6;
+    if(r > -1) sc -= (2 - r) * 1.8;
 
-    return { s:s, why:why };
+    return { s:sc, why:why };
   }
 
   function decide(){
@@ -986,31 +919,14 @@ a{color:inherit;text-decoration:none}
     return best;
   }
 
-  function headline(m){
-    if(picks.state === 'postwk') return '운동 뒤엔 이거예요. 단백질 ' + m.protein + 'g, ' + m.kcal + 'kcal.';
-    if(picks.state === 'prewk')  return '이따 운동 가신다면 이 정도가 딱 좋아요. ' + m.kcal + 'kcal.';
-    if(picks.state === 'late')   return '늦은 시간엔 가볍게. ' + m.kcal + 'kcal로 부담을 줄였어요.';
-    if(picks.state === 'tummy')  return '오늘은 속 편한 쪽으로. 식이섬유 ' + m.fiber + 'g 담았습니다.';
-    if(picks.goal === 'protein') return '단백질 ' + m.protein + 'g, ' + m.kcal + 'kcal. 오늘 목표에 맞췄어요.';
-    if(picks.goal === 'light')   return '가볍게 한 그릇. ' + m.kcal + 'kcal입니다.';
-    return '오늘은 든든하게. ' + m.kcal + 'kcal · 식이섬유 ' + m.fiber + 'g.';
-  }
-
-  function pct(v, max){ return Math.max(6, Math.min(100, Math.round(v / max * 100))); }
-
   function render(pick){
     var m = pick.m;
     current = m;
 
-    $('rEmoji').textContent = m.emoji;
     $('rPlate').style.background = m.grad;
+    $('rPlate').innerHTML = plateInner(m);
     $('rName').textContent = m.name;
-    $('rEn').textContent = m.en;
-    $('rReason').textContent = headline(m);
-    $('rPrep').textContent = m.prep + '분';
-    $('rKcal').textContent = m.kcal + 'kcal';
-    $('rProtein').textContent = m.protein + 'g';
-    $('rPrice').textContent = '₩' + m.price.toLocaleString();
+    $('rReason').textContent = m.blurb;
     $('rAddText').textContent = '이 메뉴로 담기';
 
     var why = pick.why.slice(0, 3);
@@ -1019,24 +935,19 @@ a{color:inherit;text-decoration:none}
       return '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>' + t + '</span></li>';
     }).join('');
 
-    $('rvP').textContent = m.protein + 'g';
-    $('rvV').textContent = m.veg + '종';
-    $('rvK').textContent = m.kcal + 'kcal';
+    $('rTags').innerHTML = m.tags.map(function(t){
+      return '<span class="badge badge-soft">' + t + '</span>';
+    }).join('');
 
     var box = $('result');
     box.classList.add('is-on');
     // 다음 프레임에 전환 — 420ms ease-out-soft (09 Motion)
     requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        box.classList.add('is-in');
-        $('rbP').style.width = pct(m.protein, 36) + '%';
-        $('rbV').style.width = pct(m.veg, 6) + '%';
-        $('rbK').style.width = pct(m.kcal, 560) + '%';
-      });
+      requestAnimationFrame(function(){ box.classList.add('is-in'); });
     });
 
     recent.unshift(m.id);
-    if(recent.length > 3) recent.pop();
+    if(recent.length > 2) recent.pop();
   }
 
   function run(){
@@ -1085,11 +996,10 @@ a{color:inherit;text-decoration:none}
     try { window.localStorage.setItem(KEY, JSON.stringify(log)); } catch(e){}
   }
   function renderLog(){
-    var p = 0, v = 0;
-    log.forEach(function(x){ p += x.protein; v += x.veg; });
+    var kinds = {};
+    log.forEach(function(x){ kinds[x.name] = 1; });
     $('logCount').textContent = log.length + '끼';
-    $('logProtein').textContent = p + 'g';
-    $('logVeg').textContent = v + '종';
+    $('logKinds').textContent = Object.keys(kinds).length + '종';
 
     var list = $('logList');
     if(!log.length){
@@ -1097,11 +1007,12 @@ a{color:inherit;text-decoration:none}
       return;
     }
     list.innerHTML = log.slice(-12).map(function(x){
-      return '<span class="log-chip"><span aria-hidden="true">' + x.emoji + '</span>' + x.name + ' · ' + x.protein + 'g</span>';
+      return '<span class="log-chip"><span aria-hidden="true">' + x.emoji + '</span>' + x.name + '</span>';
     }).join('');
   }
+
   function addToLog(m){
-    log.push({ name:m.name, emoji:m.emoji, protein:m.protein, veg:m.veg });
+    log.push({ name:m.name, emoji:m.emoji });
     if(log.length > 60) log.shift();
     saveLog();
     renderLog();

@@ -38,6 +38,7 @@
 |---|---|
 | `index.html` | 홈페이지 본체. HTML·CSS·JS가 모두 이 한 파일에 들어 있습니다 |
 | `assets/menu/` | 메뉴 사진. 파일을 넣으면 이모지 접시가 자동으로 사진으로 바뀝니다 |
+| `assets/mascot/` | 브랜드 마스코트 스위니. 첫 화면 · 1위 배너 · 추천 결과 · 주간 기록 · 푸터에 배치됩니다 |
 | `docs/sweetbalance-homepage-onepager.html` | 무엇을 만들었는지 한 장으로 정리한 문서 |
 | `.github/workflows/deploy-pages.yml` | GitHub Pages 자동 배포 워크플로 |
 
@@ -63,6 +64,7 @@ git clone https://github.com/hyeonheo-glitch/my-homepage-hyeon.heo.git
 ## 배포 전 확인 사항
 
 - [x] `assets/menu/` 에 메뉴 사진 4장 넣기 — 완료 (가로 1200px 이상 원본으로 교체하면 더 선명해집니다)
+- [x] `assets/mascot/` 에 마스코트 스위니 3종 넣기 — 완료
 - [ ] **"샐러드 업계 1위" 근거 표기** — 표시·광고의 공정화에 관한 법률상 순위·최상급
       표현은 조사기관 · 집계 기준 · 기준 시점을 함께 밝혀야 합니다.
       `index.html`의 `.rank-note` 문구를 실제 근거로 교체해 주세요.

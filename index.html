@@ -98,7 +98,13 @@ a{color:inherit;text-decoration:none}
   line-height:1.15;letter-spacing:-.02em;color:var(--ink);
   margin:var(--space-3) 0 var(--space-3);max-width:24ch;
 }
-.sec-sub{font-size:var(--text-lg);line-height:1.7;color:var(--char);max-width:56ch}
+.sec-sub{font-size:var(--text-lg);line-height:1.7;color:var(--char);max-width:800px}
+/* 한 문장이 한 줄에 오도록 합니다. ch 단위는 숫자 0의 폭(≈0.5em) 기준이라
+   한글에서는 지정한 글자 수의 절반만 담겨 문장이 중간에 끊겼습니다. */
+.ln{display:block}
+/* 한 줄에 못 담는 문장은 줄 길이를 고르게 나눠 외톨이 단어를 막습니다 */
+.p-card-desc,.mission .eng,.reason,.ch-card p{text-wrap:balance}
+.sec-sub,.hero-lede,.persona .d,.rank-body .d,.why li span{text-wrap:pretty}
 
 /* ---------- 06 — Buttons ---------- */
 .btn{
@@ -172,7 +178,7 @@ a{color:inherit;text-decoration:none}
   margin:var(--space-4) 0 var(--space-5);
 }
 .hero h1 .accent-line{display:block;color:var(--ink);font-size:.5em;letter-spacing:-.01em;margin-top:var(--space-3);line-height:1.4}
-.hero-lede{font-size:var(--text-lg);color:var(--char);max-width:44ch;margin-bottom:var(--space-8)}
+.hero-lede{font-size:var(--text-lg);color:var(--char);max-width:620px;margin-bottom:var(--space-8)}
 .hero-cta{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-10)}
 .hero-stats{display:flex;gap:var(--space-8);flex-wrap:wrap;padding-top:var(--space-6);border-top:1px solid var(--div)}
 .hero-stat .n{font-family:var(--en);font-weight:800;font-size:var(--text-2xl);color:var(--g);letter-spacing:-.02em;line-height:1.1}
@@ -229,7 +235,7 @@ a{color:inherit;text-decoration:none}
 .p-card .plate .ring{width:132px;height:132px}
 .hero-product-body{padding:var(--space-10);display:flex;flex-direction:column;justify-content:center}
 .hero-product-body h3{font-family:var(--display-kr);font-weight:700;font-size:var(--text-3xl);letter-spacing:-.02em;color:var(--ink);line-height:1.2}
-.hero-product-body p{color:var(--char);margin:var(--space-4) 0 var(--space-5);max-width:46ch}
+.hero-product-body p{color:var(--char);margin:var(--space-4) 0 var(--space-5)}
 .price-row{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
 .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--space-8)}
 .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6);margin-top:var(--space-6)}
@@ -260,10 +266,10 @@ a{color:inherit;text-decoration:none}
     var(--paper);
   border-top:1px solid var(--div);border-bottom:1px solid var(--div);
 }
-.decide-head{text-align:center;max-width:62ch;margin:0 auto var(--space-12)}
+.decide-head{text-align:center;max-width:860px;margin:0 auto var(--space-12)}
 .decide-head .sec-title{max-width:none}
 .decide-head .sec-sub{margin:0 auto}
-.decider{max-width:920px;margin:0 auto;border-radius:var(--r-2xl);padding:var(--space-12)}
+.decider{max-width:1000px;margin:0 auto;border-radius:var(--r-2xl);padding:var(--space-12)}
 @media (max-width:640px){.decider{padding:var(--space-6);border-radius:var(--r-xl)}}
 
 .q-block{margin-bottom:var(--space-8)}
@@ -308,7 +314,7 @@ a{color:inherit;text-decoration:none}
   display:none;overflow:hidden;border-radius:var(--r-xl)}
 .result.is-on{display:block}
 .result.is-in{opacity:1;transform:none}
-.result-top{display:grid;grid-template-columns:300px 1fr;gap:0;align-items:start}
+.result-top{display:grid;grid-template-columns:260px 1fr;gap:0;align-items:start}
 .result-plate{
   display:flex;align-items:center;justify-content:center;font-size:96px;line-height:1;
   background:linear-gradient(135deg,#E4EFDC,#A8C890);aspect-ratio:3/2;position:relative;
@@ -405,7 +411,7 @@ a{color:inherit;text-decoration:none}
 .rank-body{position:relative;flex:1;min-width:280px}
 .rank-body .t{font-family:var(--display-kr);font-weight:700;
   font-size:clamp(24px,3.4vw,var(--text-3xl));line-height:1.3;letter-spacing:-.02em}
-.rank-body .d{font-size:var(--text-md);color:rgba(253,255,230,.82);margin-top:var(--space-3);max-width:52ch}
+.rank-body .d{font-size:var(--text-md);color:rgba(253,255,230,.82);margin-top:var(--space-3);max-width:760px}
 .rank-note{font-size:var(--text-xs);color:rgba(253,255,230,.6);margin-top:var(--space-5);
   padding-top:var(--space-3);border-top:1px solid rgba(253,255,230,.18)}
 
@@ -527,8 +533,8 @@ a{color:inherit;text-decoration:none}
         <span class="accent-line">바쁜 하루에도, 운동 뒤에도.</span>
       </h1>
       <p class="hero-lede">
-        점심시간은 짧고, 채워야 할 단백질은 그대로입니다.
-        오늘 컨디션만 고르시면 스윗밸런스가 한 끼를 딱&nbsp;하나만 골라 드릴게요.
+        <span class="ln">점심시간은 짧고, 채워야 할 단백질은 그대로입니다.</span>
+        <span class="ln">컨디션만 고르시면 한 끼를 딱&nbsp;하나만 골라 드릴게요.</span>
       </p>
       <div class="hero-cta">
         <a class="btn btn-secondary btn-lg" href="#decide">
@@ -570,8 +576,8 @@ a{color:inherit;text-decoration:none}
       <p class="eyebrow">01 — Signature</p>
       <h2 class="sec-title">오늘 가장 보여드리고 싶은 한 끼</h2>
       <p class="sec-sub">
-        운동 전에도, 운동 뒤에도 잘 맞는 한 끼입니다.
-        아래 세 가지는 오늘 함께 고를 수 있는 나머지 메뉴예요.
+        <span class="ln">운동 전에도, 운동 뒤에도 잘 맞는 한 끼입니다.</span>
+        <span class="ln">아래 세 가지는 오늘 함께 고를 수 있는 나머지 메뉴예요.</span>
       </p>
     </div>
 
@@ -584,8 +590,10 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="hero-product-body">
         <h3>구운 고구마와 촉촉한<br>그릴드 닭가슴살 샐러드</h3>
-        <p>촉촉한 그릴드 닭가슴살과 고소한 시저 드레싱이 조화롭게 어울리는 샐러드입니다.
-           구운 고구마가 함께 들어가, 운동 전후 어느 쪽으로도 잘 맞습니다.</p>
+        <p>
+          <span class="ln">촉촉한 그릴드 닭가슴살에 고소한 시저 드레싱을 더했습니다.</span>
+          <span class="ln">구운 고구마가 함께 들어가 운동 전후 모두 잘 맞습니다.</span>
+        </p>
         <div class="tag-row">
           <span class="badge badge-soft">그릴드 닭가슴살</span>
           <span class="badge badge-soft">구운 고구마</span>
@@ -615,8 +623,8 @@ a{color:inherit;text-decoration:none}
       <p class="eyebrow">02 — Today&rsquo;s Pick</p>
       <h2 class="sec-title">오늘 점심, 뭐 먹지?</h2>
       <p class="sec-sub">
-        메뉴판을 한참 보다가 결국 늘 먹던 걸 고르셨다면 — 그 고민, 여기서 끝내세요.
-        세 가지만 고르시면 오늘 컨디션에 맞는 한 끼를 <b>딱 하나만</b> 골라 드립니다.
+        <span class="ln">메뉴판을 한참 보다가 결국 늘 먹던 걸 고르셨다면 — 그 고민, 여기서 끝내세요.</span>
+        <span class="ln">세 가지만 고르시면 오늘 컨디션에 맞는 한 끼를 <b>딱 하나만</b> 골라 드립니다.</span>
       </p>
     </div>
 
@@ -724,7 +732,7 @@ a{color:inherit;text-decoration:none}
     <div class="section-head rv">
       <p class="eyebrow">03 — Brand</p>
       <h2 class="sec-title">스윗밸런스는 이런 브랜드입니다</h2>
-      <p class="sec-sub">건강을 훈계하지 않습니다. 대신 숫자를 정직하게 보여드리고, 오늘 한 끼를 응원합니다.</p>
+      <p class="sec-sub"><span class="ln">건강을 훈계하지 않습니다.</span><span class="ln">대신 숫자를 정직하게 보여드리고, 오늘 한 끼를 응원합니다.</span></p>
     </div>
 
     <div class="mission rv">
@@ -739,17 +747,17 @@ a{color:inherit;text-decoration:none}
       <div class="card rv">
         <div class="w">Warm</div>
         <div class="k">따뜻한</div>
-        <p class="d">음식처럼, 브랜드도 사람을 품습니다. 건강을 훈계하지 않고 응원합니다.</p>
+        <p class="d"><span class="ln">음식처럼, 브랜드도 사람을 품습니다.</span><span class="ln">건강을 훈계하지 않고 응원합니다.</span></p>
       </div>
       <div class="card rv">
         <div class="w">Fresh</div>
         <div class="k">신선한</div>
-        <p class="d">재료처럼, 언어와 디자인도 가볍고 선명하게. 군더더기 없이.</p>
+        <p class="d"><span class="ln">재료처럼, 언어와 디자인도</span><span class="ln">가볍고 선명하게. 군더더기 없이.</span></p>
       </div>
       <div class="card rv">
         <div class="w">Honest</div>
         <div class="k">정직한</div>
-        <p class="d">칼로리·영양소를 숨기지 않습니다. 숫자가 곧 신뢰입니다.</p>
+        <p class="d"><span class="ln">칼로리·영양소를 숨기지 않습니다.</span><span class="ln">숫자가 곧 신뢰입니다.</span></p>
       </div>
     </div>
 
@@ -767,8 +775,8 @@ a{color:inherit;text-decoration:none}
       <p class="eyebrow">04 — Where to Buy</p>
       <h2 class="sec-title">어디서 주문하셔도, 같은 한 끼</h2>
       <p class="sec-sub">
-        자사몰은 물론 마켓컬리와 쿠팡에서도 스윗밸런스를 만나실 수 있습니다.
-        늘 쓰시던 곳에서 그대로 주문하세요.
+        <span class="ln">자사몰은 물론 마켓컬리와 쿠팡에서도 스윗밸런스를 만나실 수 있습니다.</span>
+        <span class="ln">늘 쓰시던 곳에서 그대로 주문하세요.</span>
       </p>
     </div>
 
@@ -778,8 +786,8 @@ a{color:inherit;text-decoration:none}
       <div class="rank-body">
         <div class="t">샐러드 업계 1위</div>
         <p class="d">
-          많은 분들이 매일의 한 끼로 스윗밸런스를 골라 주신 결과입니다.
-          그 신뢰에 맞게, 재료와 숫자를 숨기지 않겠습니다.
+          <span class="ln">많은 분들이 매일의 한 끼로 스윗밸런스를 골라 주신 결과입니다.</span>
+          <span class="ln">그 신뢰에 맞게, 재료와 숫자를 숨기지 않겠습니다.</span>
         </p>
         <!-- ⚠️ 배포 전 필수 확인
              표시·광고의 공정화에 관한 법률상 '1위' 같은 순위·최상급 표현은
@@ -794,7 +802,7 @@ a{color:inherit;text-decoration:none}
       <div class="ch-card -own rv">
         <div class="ch-mark" aria-hidden="true">SB</div>
         <h4>스윗밸런스 자사몰</h4>
-        <p>전체 메뉴와 정기구독을 가장 먼저 만나실 수 있는 곳입니다.</p>
+        <p>전체 메뉴와 정기구독을 가장 먼저.</p>
         <a class="btn btn-secondary btn-sm" href="https://sweetbalance.kr" target="_blank" rel="noopener">
           주문하러 가기
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
@@ -804,7 +812,7 @@ a{color:inherit;text-decoration:none}
       <div class="ch-card rv">
         <div class="ch-mark" aria-hidden="true">컬리</div>
         <h4>마켓컬리</h4>
-        <p>컬리 브랜드관에서 스윗밸런스 전 메뉴를 만나보실 수 있습니다.</p>
+        <p>컬리 브랜드관에서 전 메뉴를.</p>
         <a class="btn btn-secondary btn-sm" href="https://www.kurly.com/collections/oqyj8udv" target="_blank" rel="noopener">
           주문하러 가기
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
@@ -814,7 +822,7 @@ a{color:inherit;text-decoration:none}
       <div class="ch-card rv">
         <div class="ch-mark" aria-hidden="true">쿠팡</div>
         <h4>쿠팡</h4>
-        <p>쿠팡 브랜드관에서 로켓배송으로 더 빠르게 받아보세요.</p>
+        <p>쿠팡 브랜드관에서 로켓배송으로.</p>
         <a class="btn btn-secondary btn-sm" href="https://shop.coupang.com/A00211150" target="_blank" rel="noopener">
           주문하러 가기
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v7H3V3h7"/></svg>
@@ -1045,7 +1053,10 @@ a{color:inherit;text-decoration:none}
     $('rPlate').style.background = m.grad;
     $('rPlate').innerHTML = plateInner(m);
     $('rName').textContent = m.name;
-    $('rReason').textContent = m.blurb;
+    $('rReason').innerHTML = m.blurb
+      .split(/(?<=,)\s+/)
+      .map(function(t){ return '<span class="ln">' + t + '</span>'; })
+      .join('');
     $('rAddText').textContent = '이 메뉴로 담기';
 
     var why = pick.why.slice(0, 3);
